@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_project/Controller/controller.dart';
 
 class QuestionWidget extends StatelessWidget {
   String text;
 
-  QuestionWidget(this.text);
+  QuestionWidget(this.text){
+
+  }
 
   @override
   Widget build(BuildContext context) {
