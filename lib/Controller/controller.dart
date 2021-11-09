@@ -1,5 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/Model/question.dart';
 import 'package:flutter_project/Model/question_factory.dart';
+import 'package:flutter_project/View/main.dart';
 
 class Controller{
 
@@ -14,30 +16,45 @@ class Controller{
   }
 
   // Fields
+  static const int QUESTION_AMOUNT = 10;
   List<Question> _quiz = [];
-  int _currentIndex = 0;
-  int get currentIndex => _currentIndex;
-
-  // Methods
-
-  /// Returns a list of question. The quiz is only generated if it hasn't been initialized yet.
-  List<Question> getQuiz(){
+  List<Question> get quiz {
     if(_quiz.isEmpty){
-      _quiz = QuestionFactory.generateQuestions(10);
+      _quiz = QuestionFactory.generateQuestions(QUESTION_AMOUNT);
     }
     return _quiz;
   }
 
-  void incrementIndex(){
+  int _currentIndex = 0;
+  int get currentIndex => _currentIndex;
+
+  Question get currentQuestion => _quiz[_currentIndex];
+
+  int _score = 0;
+  int get score => _score;
+
+
+
+
+
+  // Methods
+
+  /// Returns true if the answer passed as argument is the right one.
+  bool isRight(String answer){
+    return currentQuestion.submit(answer);
+  }
+
+  void submit(bool answeredRight){
     _currentIndex++;
+    if(answeredRight) _score++;
   }
 
-  Question getCurrentQuestion(){
-    return _quiz[_currentIndex];
+  void reset() {
+    _score = 0;
+    _currentIndex = 0;
+    _quiz = QuestionFactory.generateQuestions(QUESTION_AMOUNT);
   }
 
-  bool submit(String answer){
-    return getCurrentQuestion().submit(answer);
-  }
+
 
 }

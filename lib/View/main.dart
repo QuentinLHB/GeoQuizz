@@ -8,18 +8,7 @@ import 'question_widget.dart';
 import 'quiz_widget.dart';
 import 'package:flutter_project/Controller/controller.dart';
 
-void main() {
-
-  var qs = QuestionFactory.generateQuestions(10);
-
-  qs.forEach((question) {
-    print(question.question);
-    print(question.allAnswers);
-    print(question.rightAnswer);
-  });
-
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 
 
@@ -38,12 +27,8 @@ void main() {
 
     List<Question> _questions = [];
 
-    int _score = 0;
-
     @override
     Widget build(BuildContext context) {
-
-
 
       return MaterialApp(
           title: 'Flutter Demo',
@@ -54,19 +39,24 @@ void main() {
           home: Scaffold(
             appBar: AppBar(title: const Text("Quizz")),
             body: controller.currentIndex < _questions.length
-                ? QuizzWidget(validateAnswer, controller.currentIndex)
-                : ResultWidget(_score, _questions.length)
+                ? QuizWidget(resetCallBack: reset, answerCallBack: validateAnswer, currentIndex:controller.currentIndex)
+                : ResultWidget(reset, controller.score, _questions.length)
           ));
     }
 
     void validateAnswer(bool right) {
       setState(() {
-        if(right) _score++;
-        controller.incrementIndex();
+        controller.submit(right);
+      });
+    }
+
+    void reset(){
+      setState(() {
+        controller.reset();
       });
     }
 
     MyAppState(){
-      _questions = controller.getQuiz();
+      _questions = controller.quiz;
     }
 }

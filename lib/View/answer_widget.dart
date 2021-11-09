@@ -4,19 +4,17 @@ class AnswerWidget extends StatelessWidget {
 
   final void Function(bool) onPressHandler;
   final String answerText;
-  final bool rightAnswer;
+  final bool isRight;
 
-  void onPress(){
-      onPressHandler(rightAnswer);
-  }
-
-  AnswerWidget(this.onPressHandler, this.answerText, this.rightAnswer, {Key? key}) : super(key: key);
+  AnswerWidget(this.onPressHandler, this.answerText, this.isRight, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: ElevatedButton(onPressed: onPress, child: Text(answerText)),
-      width: double.infinity,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+          child: ElevatedButton(onPressed: () => onPressHandler(isRight), child: Text(answerText))),
+      width: MediaQuery.of(context).size.width /2,
     );
   }
 }

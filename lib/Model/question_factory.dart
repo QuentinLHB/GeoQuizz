@@ -70,14 +70,15 @@ abstract class QuestionFactory{
       }
       String questionString = _generateQuestionString('chef_lieu', randomRegion);
       answers.shuffle();
-      questions.add(Question('chef_lieu', questionString, answers, rightAnswer));
+      questions.add(Question('chef_lieu', questionString, answers, rightAnswer, textToHighLight: ["chef lieu", randomRegion]));
     }
     return questions;
   }
 
   static String _generateQuestionString(String type, String lieuQuestion){
     if(type == "chef_lieu"){
-      return "Quel est leu chef lieu du département '" + lieuQuestion + "' ?";
+
+      return "Quel est le chef lieu du département '$lieuQuestion' ?";
     }
     return "error";
   }
