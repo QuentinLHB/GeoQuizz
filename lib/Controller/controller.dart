@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_project/Model/question.dart';
 import 'package:flutter_project/Model/question_factory.dart';
-import 'package:flutter_project/View/main.dart';
+import 'package:flutter_project/View/Home/main.dart';
 
 class Controller{
 
@@ -33,20 +33,28 @@ class Controller{
   int _score = 0;
   int get score => _score;
 
-
-
+  /// Returns quiz's status, i.e. "Quizz : Question 2/10"
+  String get quizStatus {
+    if(currentIndex <= quiz.length-1) return "Quizz : Question " + (currentIndex+1).toString() + " / " + quiz.length.toString();
+    return "Résultats";
+  }
 
 
   // Methods
 
   /// Returns true if the answer passed as argument is the right one.
-  bool isRight(String answer){
-    return currentQuestion.submit(answer);
+  bool isRight(){
+    return currentQuestion.isUserRight;
   }
 
-  void submit(bool answeredRight){
+  bool isAnswerRight(Question question, String answer){
+    return question.isAnswerRigh(answer);
+  }
+
+  void submit(String answer){
+    currentQuestion.submit(answer);
+    if(currentQuestion.isUserRight) _score++;
     _currentIndex++;
-    if(answeredRight) _score++;
   }
 
   void reset() {

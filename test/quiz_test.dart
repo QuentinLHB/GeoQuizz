@@ -3,9 +3,10 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_project/Controller/controller.dart';
 import 'package:flutter_project/Model/question_factory.dart';
+import 'package:flutter_project/View/question_widget.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_project/View/main.dart';
+import 'package:flutter_project/View/Home/main.dart';
 
 void main(){
   group("Quiz", (){
@@ -40,9 +41,19 @@ void main(){
     test("Score and index increase", (){
       int scoreBefore = c.score;
       int indexBefore = c.currentIndex;
-      c.submit(true);
+      // c.submit(true); à remplacer
       expect(c.score != scoreBefore, true);
       expect(c.currentIndex != indexBefore, true);
+    });
+  });
+
+  group("Test des widgets", (){
+
+    testWidgets("Contenu du widget Question", (WidgetTester tester) async {
+      var questionWidget = QuestionWidget("Quelle est la capitale de la France ?");
+      await tester.pumpWidget(questionWidget);
+      final richtext = find.descendant(of: find.byWidget(questionWidget), matching: find.byType(RichText));
+      expect(richtext, findsOneWidget);
     });
   });
 }
